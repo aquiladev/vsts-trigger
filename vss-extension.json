@@ -1,0 +1,74 @@
+{
+	"manifestVersion": 1,
+	"id": "vsts-trigger",
+	"name": "VSTS Trigger",
+	"version": "0.0.43",
+	"publisher": "sergiibomko",
+	"public": false,
+	"targets": [
+		{
+			"id": "Microsoft.VisualStudio.Services"
+		}
+	],
+	"scope": [
+		"vso.build",
+		"vso.release"
+	],
+	"description": "Extension that enable you to trigger build or release process.",
+	"categories": [
+		"Build and release"
+	],
+	"tags": [
+		"build",
+		"release",
+		"trigger",
+		"tasks"
+	],
+	"content": {
+		"details": {
+			"path": "README.md"
+		},
+		"license": {
+			"path": "LICENSE",
+			"contentType": "text/plain"
+		}
+	},
+	"links": {
+		"getstarted": {
+			"uri": "https://github.com/aquiladev/vsts-trigger"
+		},
+		"support": {
+			"uri": "https://github.com/aquiladev/vsts-trigger/issues"
+		}
+	},
+	"branding": {
+		"color": "#eff1f3",
+		"theme": "light"
+	},
+	"icons": {
+		"default": "Extension/icon.png"
+	},
+	"files": [
+		{
+			"path": "Tasks/ReleaseTrigger/ReleaseTrigger.ps1"
+		},
+		{
+			"path": "Tasks/ReleaseTrigger/task.json"
+		},
+		{
+			"path": "Tasks/ReleaseTrigger/icon.png"
+		}
+	],
+	"contributions": [
+		{
+			"id": "VSTS.Trigger.ReleaseTrigger",
+			"type": "ms.vss-distributed-task.task",
+			"targets": [
+				"ms.vss-distributed-task.tasks"
+			],
+			"properties": {
+				"name": "Tasks/ReleaseTrigger"
+			}
+		}
+	]
+}
