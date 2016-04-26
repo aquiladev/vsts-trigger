@@ -2,7 +2,7 @@
 	"manifestVersion": 1,
 	"id": "vsts-trigger",
 	"name": "VSTS Trigger",
-	"version": "0.0.58",
+	"version": "0.0.59",
 	"publisher": "sergiibomko",
 	"public": false,
 	"targets": [
