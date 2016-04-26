@@ -2,7 +2,7 @@
 	"id": "b2d2e081-c1e0-4daf-b444-c492a02e47f8",
 	"name": "ReleaseTrigger",
 	"friendlyName": "Release Trigger",
-	"description": "Release Trigger.",
+	"description": "Trigger release pipeline",
 	"helpMarkDown": "[More Information](https://github.com/aquiladev/vsts-trigger)",
 	"category": "Utility",
 	"visibility": [ "Build", "Release" ],
@@ -20,7 +20,7 @@
 			"label": "Current VSTS connection",
 			"defaultValue": "",
 			"required": true,
-			"helpMarkDown": "Select a service connection..."
+			"helpMarkDown": "VSTS connection on current instance"
 		},
 		{
 			"name": "ReleaseDefinitionName",
@@ -28,7 +28,7 @@
 			"label": "Release Definition Name",
 			"defaultValue": "",
 			"required": true,
-			"helpMarkDown": "Release Definition Name"
+			"helpMarkDown": "Release definition name"
 		}
 	],
 	"instanceNameFormat": "Release trigger: $(ReleaseDefinitionName)",
