@@ -26,6 +26,7 @@ Function Find-ReleaseDefinition {
 		$streamReader.DiscardBufferedData()
 		$responseBody = $streamReader.ReadToEnd()
 		$streamReader.Close()
+		Write-Error $responseBody
 	}
 	
 	return $result.value | where {$_.name -eq $ReleaseDefinitionName}
@@ -57,6 +58,7 @@ Function Get-ArtifactsVersions {
 		$streamReader.DiscardBufferedData()
 		$responseBody = $streamReader.ReadToEnd()
 		$streamReader.Close()
+		Write-Error $responseBody
 	}
 	
 	return $result
@@ -91,6 +93,11 @@ Function Get-Artifacts {
 	}
 	
 	$unknownArtifacts = $defArtifacts | where {$_.definitionReference.definition.id -ne $BuildDefinitionId}
+	
+	if($unknownArtifacts -eq $null) {
+		return $artifacts
+	}
+	
 	$versions = Get-ArtifactsVersions -TfsUri $TfsUri -Artifacts $unknownArtifacts
 
 	if($versions -eq $null) {
@@ -143,8 +150,9 @@ Function TriggerRelease {
 	} | ConvertTo-Json -Depth 4
 	Write-Host "body= $body"
 	
+	$result = $null
 	try {
-		Invoke-RestMethod -Uri $url -Method POST -Body $body -ContentType "application/json" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
+		$result = Invoke-RestMethod -Uri $url -Method POST -Body $body -ContentType "application/json" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
 	} catch {
 		Write-Verbose $_.Exception.ToString()
 		$response = $_.Exception.Response
@@ -154,7 +162,10 @@ Function TriggerRelease {
 		$streamReader.DiscardBufferedData()
 		$responseBody = $streamReader.ReadToEnd()
 		$streamReader.Close()
+		Write-Error $responseBody
 	}
+	
+	return $result
 }
 
 $ErrorActionPreference = 'Stop'
@@ -190,6 +201,6 @@ if($definition -eq $null -or $definition -is [array]) {
 }
 
 $artifacts = Get-Artifacts -TfsUri $tfsUri -ReleaseDefinition $definition -BuildDefinitionId $buildDefinitionId
-TriggerRelease -TfsUri $tfsUri -ReleaseDefinition $definition -Artifacts $artifacts
+$release = TriggerRelease -TfsUri $tfsUri -ReleaseDefinition $definition -Artifacts $artifacts
 
 Write-Verbose "Leaving script ReleaseTrigger.ps1"
