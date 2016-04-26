@@ -8,14 +8,20 @@ The task calls VSTS REST API for triggering process and fetching all needed data
 ![Personal access tokens](https://raw.githubusercontent.com/aquiladev/vsts-trigger/master/Extension/Images/add_personal_token.png)
 
 > Note:
-> For start release is enough to have scope "Release (read, write and execute)", but in our case we use API for getting latest atrifacts for target release (the API is out of all presented scopes), that is why we need to choose "All scopes"
+> For starting release is enough to have scope "Release (read, write and execute)", but in our case we use API for getting latest atrifacts for target release (the API is out of all presented scopes), that is why we need to choose "All scopes"
 
 * Than you need to add Generic Endpoint Service
 ![Generic Endpoint Service](https://raw.githubusercontent.com/aquiladev/vsts-trigger/master/Extension/Images/add_service_start.png)
 
-* Use generated personal access token, Server URL is your VSTS service, User name can be anything
+Use generated personal access token, Server URL is your VSTS service, User name can be anything
 ![Generic Endpoint Service](https://raw.githubusercontent.com/aquiladev/vsts-trigger/master/Extension/Images/add_service.png)
 
 ## ReleaseTrigger
 
 The task allow to trigger release process from build process or other release process. The task builds batch with all needed artifacts with latest versions for target release definition and trigger the release. In case when target release definition needs artifact from current process the task takes current artifacts, not latest.
+
+To add task into your build or release definition
+![Add Task](https://raw.githubusercontent.com/aquiladev/vsts-trigger/master/Extension/Images/add_task.png)
+
+fill settings for the task
+![Task](https://raw.githubusercontent.com/aquiladev/vsts-trigger/master/Extension/Images/task.png)
