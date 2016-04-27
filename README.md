@@ -18,7 +18,7 @@ The task calls VSTS REST API for triggering process and fetching all needed data
 Use generated personal access token, Server URL is your VSTS service, User name can be anything
 ![Generic Endpoint Service](https://raw.githubusercontent.com/aquiladev/vsts-trigger/master/Extension/Images/add_service.png)
 
-## ReleaseTrigger
+## ReleaseTrigger task
 
 The task allow to trigger release process from build process or other release process. The task builds batch with all needed artifacts with latest versions for target release definition and trigger the release. In case when target release definition needs artifact from current process the task takes current artifacts, not latest.
 
