@@ -200,7 +200,7 @@ if($definition -eq $null -or $definition -is [array]) {
 	Write-Error "Cannot find Release Definition or there are more than one Release Definition with the name."
 }
 
-$artifacts = Get-Artifacts -TfsUri $tfsUri -ReleaseDefinition $definition -BuildDefinitionId $buildDefinitionId
+$artifacts = @(Get-Artifacts -TfsUri $tfsUri -ReleaseDefinition $definition -BuildDefinitionId $buildDefinitionId)
 $release = TriggerRelease -TfsUri $tfsUri -ReleaseDefinition $definition -Artifacts $artifacts
 
 Write-Verbose "Leaving script ReleaseTrigger.ps1"
