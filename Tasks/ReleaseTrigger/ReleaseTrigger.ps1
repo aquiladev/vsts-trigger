@@ -175,9 +175,16 @@ Write-Verbose "Entering script ReleaseTrigger.ps1"
 Write-Host "ReleaseDefinitionName= $ReleaseDefinitionName"
 Write-Host "TeamProject= $env:SYSTEM_TEAMPROJECT"
 
-$tfsColUri = $env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI | out-string
-$uriParts = $tfsColUri -split ".visualstudio.com/"
-$tfsUri = [string]::Format("{0}.vsrm.visualstudio.com/{1}", $uriParts[0], $uriParts[1]).Trim()
+if($env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI -match "^(http://|https://)?[^/]+\.visualstudio\.com/") {
+	Write-Host "Using cloud services"
+	$tfsColUri = $env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI | out-string
+	$uriParts = $tfsColUri -split ".visualstudio.com/"
+	$tfsUri = [string]::Format("{0}.vsrm.visualstudio.com/{1}", $uriParts[0], $uriParts[1]).Trim()
+}
+else {
+	Write-Host "Using on-premises services"
+	$tfsUri = $env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI
+}
 Write-Host "TfsUri= $tfsUri"
 
 $buildDefinitionId= $env:BUILD_DEFINITIONID
@@ -193,7 +200,7 @@ $serviceEndpoint = Get-ServiceEndpoint -Name "$ConnectedServiceName" -Context $d
 
 $username = $serviceEndpoint.Authorization.Parameters.UserName
 $password = $serviceEndpoint.Authorization.Parameters.Password
-$base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $user, $password)))
+$base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username, $password)))
 
 $definition = Find-ReleaseDefinition -TfsUri $tfsUri
 if($definition -eq $null -or $definition -is [array]) {
